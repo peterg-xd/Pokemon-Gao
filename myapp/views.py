@@ -8,3 +8,6 @@ def index(request):
 
 def dashboard(request):
     return render(request, 'dashboard.html')
+
+def sign_in(request):
+    return render(request, 'sign-in.html')
