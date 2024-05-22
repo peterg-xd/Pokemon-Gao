@@ -115,10 +115,17 @@
                 <div class="card-body">
                   <form role="form">
                     <div class="input-group input-group-outline mb-3">
-                      <input type="text" name="name" placeholder="Name" class="form-control" id="nameField">
+                      <input type="text" name="username" placeholder="Username" class="form-control" id="usernameField">
                     </div>
+                    <div class="invalid_feedback invalid-feedback" style="display:none">
+                      
+                    </div>
+                    <p class="text-sm text-success usernameSuccessOutput"></p>
                     <div class="input-group input-group-outline mb-3">
                       <input type="email" name="email" placeholder="Email" class="form-control" id="emailField">
+                    </div>
+                    <div class="emailFeedbackArea invalid-feedback" style="display:none">
+                      
                     </div>
                     <div class="input-group input-group-outline mb-3">
                       <input type="password" name="password" placeholder="Password" class="form-control" id="passwordField">
@@ -153,6 +160,9 @@
   <script src="{% static 'myapp/assets/js/core/bootstrap.min.js' %}"></script>
   <script src="{% static 'myapp/assets/js/plugins/perfect-scrollbar.min.js' %}"></script>
   <script src="{% static 'myapp/assets/js/plugins/smooth-scrollbar.min.js' %}"></script>
+
+  <script src="{% static 'myapp/assets/js/register.js' %}"></script>
+
   <script>
     var win = navigator.platform.indexOf('Win') > -1;
     if (win && document.querySelector('#sidenav-scrollbar')) {
