@@ -5,6 +5,7 @@ name = "pypi"
 
 [packages]
 validate-email = "*"
+six = "*"
 
 [dev-packages]
 

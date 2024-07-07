@@ -27937,4 +27937,9 @@ pre[class*="language-"] {
   }
 }
 
+.showPasswordToggle:hover {
+  cursor: pointer;
+  transition: all;
+}
+
 /*# sourceMappingURL=dashboard-free.css.map */

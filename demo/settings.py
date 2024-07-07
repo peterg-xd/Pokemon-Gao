@@ -15,6 +15,7 @@ import environ
 env = environ.Env()
 environ.Env.read_env()
 import os
+from django.contrib import messages
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -42,7 +43,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     "myapp",
-    "authentication"
+    "authentication",
+    "userpreferences"
 ]
 
 MIDDLEWARE = [
@@ -132,3 +134,14 @@ STATIC_ROOT = ''
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+MESSAGE_TAGS = {
+    messages.ERROR: 'danger'
+}
+
+EMAIL_HOST = env('EMAIL_HOST')
+EMAIL_HOST_USER = env('EMAIL_HOST_USER')
+EMAIL_USE_TLS = True
+DEFAULT_FROM_EMAIL = env('DEFAULT_FROM_EMAIL')
+EMAIL_PORT = 587
+EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')

@@ -106,7 +106,7 @@
           <h6 class="ps-4 ms-2 text-uppercase text-xs text-white font-weight-bolder opacity-8">Account pages</h6>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-white " href="../pages/profile.html">
+          <a class="nav-link text-white " href="../preferences">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
               <i class="material-icons opacity-10">person</i>
             </div>
@@ -149,6 +149,9 @@
           </ol>
           <h6 class="font-weight-bolder mb-0">Dashboard</h6>
         </nav>
+
+        {% include '_messages.html' %}
+
         <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
           <div class="ms-md-auto pe-md-3 d-flex align-items-center">
             <div class="input-group input-group-outline">
@@ -251,10 +254,11 @@
               </ul>
             </li>
             <li class="nav-item d-flex align-items-center">
-              <a href="../authentication/sign-in.html" class="nav-link text-body font-weight-bold px-0">
-                <i class="fa fa-user me-sm-1"></i>
-                <span class="d-sm-inline d-none">Sign In</span>
-              </a>
+              <i class="fa fa-user me-sm-1"></i>
+              <form action="{% url 'logout' %}" method="POST">
+                {% csrf_token %}
+                <input class="nav-link text-body font-weight-bold px-0" type="submit" value="Sign Out"/>
+              </form>
             </li>
           </ul>
         </div>
