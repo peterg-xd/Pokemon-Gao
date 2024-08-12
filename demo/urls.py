@@ -21,5 +21,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path("", include("myapp.urls")),
     path('authentication/', include('authentication.urls')),
-    path('preferences/', include('userpreferences.urls'))
+    path('preferences/', include('userpreferences.urls')),
 ]
