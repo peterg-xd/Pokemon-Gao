@@ -294,51 +294,115 @@
               {% include '_messages.html' %}
               {% if expenses.count %}
 
-              <table class="table table-stripped table-hover align-items-center mb-0">
-                <thead>
-                  <tr>
-                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Amount (CURRENCY)</th>
-                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Category</th>
-                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Description</th>
-                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Date</th>
-                    <th class="text-secondary opacity-7"></th>
-                  </tr>
-                </thead>
+              <div class="row">
+                <div class="col-md-8"></div>
+                <div class="col-md-4">
+                  <div class="ms-md-auto pe-md-3 d-flex align-items-center">
+                    <div class="input-group input-group-outline" style="width: 400px;">
+                      <label class="form-label">Search</label>
+                      <input type="text" class="form-control" id="searchField">
+                    </div>
+                  </div>
+                </div>
+              </div>
 
-                <tbody>
-                  
-                  {% for expense in expenses %}
-                  
-                  <tr>
-                    <td>
-                      <div class="d-flex px-2 py-1">
-                        <div class="d-flex flex-column justify-content-center">
-                          <h6 class="mb-0 text-sm">{{expense.amount}}</h6>
-                          <p class="text-xs text-secondary mb-0">john@creative-tim.com</p>
+              <div class="app-table">
+                <table class="table table-stripped table-hover align-items-center mb-0">
+                  <thead>
+                    <tr>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Amount (CURRENCY)</th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Category</th>
+                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Description</th>
+                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Date</th>
+                      <th class="text-secondary opacity-7"></th>
+                    </tr>
+                  </thead>
+  
+                  <tbody>
+                    
+                    {% for expense in page_obj %}
+                    
+                    <tr>
+                      <td>
+                        <div class="d-flex px-2 py-1">
+                          <div class="d-flex flex-column justify-content-center">
+                            <h6 class="mb-0 text-sm">{{expense.amount}}</h6>
+                            <p class="text-xs text-secondary mb-0">john@creative-tim.com</p>
+                          </div>
                         </div>
-                      </div>
-                    </td>
-                    <td>
-                      <span class="badge badge-sm bg-gradient-success">{{expense.category}}</span>
-                    </td>
-                    <td class="align-middle text-center text-sm">
-                      <p class="text-xs font-weight-bold mb-0">{{expense.description}}</p>
-                     
-                    </td>
-                    <td class="align-middle text-center">
-                      <span class="text-secondary text-xs font-weight-bold">{{expense.date}}</span>
-                    </td>
-                    <td class="align-middle">
-                      <a href="{% url 'edit_expense' expense.id %}" class="btn btn-secondary btn-sm mt-3 font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
-                        Edit
-                      </a>
-                    </td>
-                  </tr>
-                  
-                  {% endfor %}
+                      </td>
+                      <td>
+                        <span class="badge badge-sm bg-gradient-success">{{expense.category}}</span>
+                      </td>
+                      <td class="align-middle text-center text-sm">
+                        <p class="text-xs font-weight-bold mb-0">{{expense.description}}</p>
+                       
+                      </td>
+                      <td class="align-middle text-center">
+                        <span class="text-secondary text-xs font-weight-bold">{{expense.date}}</span>
+                      </td>
+                      <td class="align-middle">
+                        <a href="{% url 'edit_expense' expense.id %}" class="btn btn-secondary btn-sm mt-3 font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
+                          Edit
+                        </a>
+                      </td>
+                    </tr>
+                    
+                    {% endfor %}
+  
+                  </tbody>
+                </table>
+              </div>
 
-                </tbody>
-              </table>
+            <p class="no-results" style="display: none;">No results </p>  
+              <div class="table-output">
+                <table class="table table-stripped table-hover align-items-center mb-0">
+                  <thead>
+                    <tr>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Amount (CURRENCY)</th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Category</th>
+                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Description</th>
+                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Date</th>
+                      <th class="text-secondary opacity-7"></th>
+                    </tr>
+                  </thead>
+  
+                  <tbody class="table-body">
+                    
+                    
+                  </tbody>
+                </table>
+              </div>
+
+              <div class="pagination-container">
+                <div class="d-flex justify-content-between align-items-center">
+                  <div class="text-xs font-weight-bold mb-0" style="margin-left: 15px;">
+                    Showing page {{page_obj.number}} of {{ page_obj.paginator.num_pages }}
+                  </div>
+                
+                  <ul class="pagination" style="padding: 0; margin: 0; display: flex; margin-right: 150px;">
+                    {% if page_obj.has_previous %}
+                    <li class="page-item" style="margin: 0;">
+                      <a class="page-link" href="?page=1" style="display: flex; justify-content: center; align-items: center; min-width: 80px; height: 30px; text-align: center;">&laquo; 1</a>
+                    </li>
+                    <li class="page-item" style="margin: 0;">
+                        <a class="page-link" href="?page={{ page_obj.previous_page_number }}" style="display: flex; justify-content: center; align-items: center; min-width: 80px; height: 30px; text-align: center;">Previous</a>
+                    </li>
+                    {% endif %}
+                
+                    {% if page_obj.has_next %}
+                    <li class="page-item" style="margin: 0;">
+                        <a class="page-link" href="?page={{ page_obj.next_page_number }}" style="display: flex; justify-content: center; align-items: center; min-width: 80px; height: 30px; text-align: center;">Next</a>
+                    </li>
+                    <li class="page-item" style="margin: 0;">
+                        <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}" style="display: flex; justify-content: center; align-items: center; min-width: 80px; height: 30px; text-align: center;">{{ page_obj.paginator.num_pages }} &raquo;</a>
+                    </li>
+                    {% endif %}
+                </ul>
+                
+                </div>
+              </div>
+
               {% endif %}
           
 
@@ -461,6 +525,8 @@
   <script src="{% static 'myapp/assets/js/core/bootstrap.min.js' %}"></script>
   <script src="{% static 'myapp/assets/js/plugins/perfect-scrollbar.min.js' %}"></script>
   <script src="{% static 'myapp/assets/js/plugins/smooth-scrollbar.min.js' %}"></script>
+
+  <script src="{% static 'myapp/assets/js/searchExpenses.js' %}"></script>
   <script>
     var win = navigator.platform.indexOf('Win') > -1;
     if (win && document.querySelector('#sidenav-scrollbar')) {
