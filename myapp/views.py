@@ -6,6 +6,7 @@ from django.contrib import messages
 from django.core.paginator import Paginator
 import json
 from django.http import JsonResponse
+from userpreferences.models import UserPreference
 
 def search_expenses(request):
     if request.method == 'POST':
@@ -31,19 +32,25 @@ def dashboard(request):
     return render(request, 'dashboard.html')
 
 
-
+@login_required(login_url='/authentication/sign-in.html')
 def expenses(request):  
     categories = Category.objects.all()
     expenses = Expense.objects.filter(owner=request.user)
     paginator = Paginator(expenses, 5)
     page_number = request.GET.get('page')
     page_obj = Paginator.get_page(paginator, page_number)
+
+    currency = "None"
+    if UserPreference.objects.filter(user = request.user).exists():
+        currency = UserPreference.objects.get(user=request.user).currency
     context = {
         'expenses': expenses,
-        'page_obj': page_obj
+        'page_obj': page_obj,
+        'currency': currency
     }
     return render(request, 'expenses.html', context) 
 
+@login_required(login_url='/authentication/sign-in.html')
 def add_expense(request):
     categories = Category.objects.all()
     context = {
@@ -63,7 +70,7 @@ def add_expense(request):
             messages.error(request, 'Amount is required')
             return render(request, 'add_expense.html', context)
     
-        if not amount.isnumeric():
+        if not is_number(amount):
             messages.error(request, 'Amount must be a value')
             return render(request, 'add_expense.html', context)
         
@@ -78,7 +85,7 @@ def add_expense(request):
         messages.success(request, "Expense saved successfully")
         return redirect('expenses')
 
-
+@login_required(login_url='/authentication/sign-in.html')
 def edit_expense(request, id):
     expense = Expense.objects.get(pk=id)
     categories = Category.objects.all()
@@ -100,7 +107,7 @@ def edit_expense(request, id):
             messages.error(request, 'Amount is required')
             return render(request, 'add_expense.html', context)
     
-        if not amount.isnumeric():
+        if not is_number(amount):
             messages.error(request, 'Amount must be a value')
             return render(request, 'edit_expense.html', context)
         
@@ -125,3 +132,11 @@ def delete_expense(request, id):
     expense.delete()
     messages.success(request, "Expense deleted")
     return redirect('expenses')
+
+def is_number(s):
+    try:
+        # Attempt to convert the string to a float
+        float(s)  
+        return True
+    except ValueError:
+        return False
