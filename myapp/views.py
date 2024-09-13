@@ -38,7 +38,7 @@ def dashboard(request):
 @login_required(login_url='/authentication/sign-in.html')
 def transactions(request):  
     categories = Category.objects.all()
-    expenses = Expense.objects.filter(owner=request.user).select_related('category')
+    expenses = Expense.objects.filter(owner=request.user)
     paginator = Paginator(expenses, 5)
     page_number = request.GET.get('page')
     page_obj = Paginator.get_page(paginator, page_number)
