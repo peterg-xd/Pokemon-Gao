@@ -7,16 +7,19 @@ from django.core.paginator import Paginator
 import json
 from django.http import JsonResponse
 from userpreferences.models import UserPreference
+from django.db.models import Q
 
 def search_expenses(request):
     if request.method == 'POST':
         search_str = json.loads(request.body).get('searchText')
 
-        expenses=Expense.objects.filter(
-            amount__istartswith=search_str, owner=request.user) | Expense.objects.filter(
-            date__istartswith=search_str, owner=request.user) | Expense.objects.filter(
-            description__icontains=search_str, owner=request.user) | Expense.objects.filter(
-            category__icontains=search_str, owner=request.user)
+        expenses = Expense.objects.filter(
+            Q(amount__istartswith=search_str) |
+            Q(date__istartswith=search_str) |
+            Q(description__icontains=search_str) |
+            Q(category__icontains=search_str),
+            owner=request.user
+        )
         
         data=expenses.values()
         return JsonResponse(list(data), safe=False)
@@ -33,9 +36,9 @@ def dashboard(request):
 
 
 @login_required(login_url='/authentication/sign-in.html')
-def expenses(request):  
+def transactions(request):  
     categories = Category.objects.all()
-    expenses = Expense.objects.filter(owner=request.user)
+    expenses = Expense.objects.filter(owner=request.user).select_related('category')
     paginator = Paginator(expenses, 5)
     page_number = request.GET.get('page')
     page_obj = Paginator.get_page(paginator, page_number)
@@ -48,7 +51,7 @@ def expenses(request):
         'page_obj': page_obj,
         'currency': currency
     }
-    return render(request, 'expenses.html', context) 
+    return render(request, 'transactions.html', context) 
 
 @login_required(login_url='/authentication/sign-in.html')
 def add_expense(request):
@@ -83,7 +86,7 @@ def add_expense(request):
         else:
             Expense.objects.create(owner=request.user, amount=amount, date=date, category=category, description=description)
         messages.success(request, "Expense saved successfully")
-        return redirect('expenses')
+        return redirect('transactions')
 
 @login_required(login_url='/authentication/sign-in.html')
 def edit_expense(request, id):
@@ -124,14 +127,14 @@ def edit_expense(request, id):
         expense.save()
 
         messages.success(request, "Expense updated succesfully")
-        return redirect('expenses')
+        return redirect('transactions')
     
 
 def delete_expense(request, id):
     expense = Expense.objects.get(pk=id)
     expense.delete()
     messages.success(request, "Expense deleted")
-    return redirect('expenses')
+    return redirect('transactions')
 
 def is_number(s):
     try:
