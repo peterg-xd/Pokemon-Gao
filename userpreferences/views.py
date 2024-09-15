@@ -22,8 +22,13 @@ def index(request):
     if exists:
         user_preferences = UserPreference.objects.get(user = request.user)
 
+    context = {
+        'currencies': currency_data,
+        'user_preferences': user_preferences,
+    }
+
     if request.method == 'GET':
-        return render(request, 'preferences.html', {'currencies': currency_data, "user_preferences": user_preferences})
+        return render(request, 'preferences.html', context)
     else:  
         currency = request.POST["currency"]
         if exists:
@@ -32,5 +37,5 @@ def index(request):
         else: 
             UserPreference.objects.create(user=request.user, currency=currency)
         messages.success(request, 'Changes saved')
-        return render(request, 'preferences.html', {'currencies': currency_data, "user_preferences": user_preferences})
+        return render(request, 'preferences.html', context)
         

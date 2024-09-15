@@ -79,14 +79,6 @@
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-white " href="../pages/virtual-reality.html">
-            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-              <i class="material-icons opacity-10">view_in_ar</i>
-            </div>
-            <span class="nav-link-text ms-1">Virtual Reality</span>
-          </a>
-        </li>
-        <li class="nav-item">
           <a class="nav-link text-white " href="../pages/notifications.html">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
               <i class="material-icons opacity-10">notifications</i>
@@ -252,6 +244,9 @@
         </div>
       </div>
     </nav>
+
+    {% include '_messages.html' %}
+
     <!-- End Navbar -->
     <div class="container-fluid py-4">
       <div class="row">
@@ -259,7 +254,7 @@
           <div class="card my-4">
             <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
               <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
-                <h6 class="text-white text-capitalize ps-3">Transactions</h6>
+                <h6 class="text-white text-capitalize ps-3">Expenses</h6>
               </div>
             </div>
 
@@ -283,7 +278,6 @@
               </div>
               
              
-              {% include '_messages.html' %}
               {% if expenses.count %}
 
               <div class="row">
@@ -312,14 +306,14 @@
   
                   <tbody>
                     
-                    {% for expense in page_obj %}
+                    {% for expense in expense_page_obj %}
                     
                     <tr>
                       <td>
                         <div class="d-flex px-2 py-1">
                           <div class="d-flex flex-column justify-content-center">
                             <h6 class="mb-0 text-sm">{{expense.amount}}</h6>
-                            <p class="text-xs text-secondary mb-0">john@creative-tim.com</p>
+                            <!-- <p class="text-xs text-secondary mb-0">john@creative-tim.com</p> -->
                           </div>
                         </div>
                       </td>
@@ -345,8 +339,11 @@
                   </tbody>
                 </table>
               </div>
+            
+              
 
-            <p class="no-results" style="display: none;">No results </p>  
+            <p class="no-results" style="display: none; margin-left: 20px; font-weight: bold;">No results</p>
+
               <div class="table-output">
                 <table class="table table-stripped table-hover align-items-center mb-0">
                   <thead>
@@ -369,25 +366,25 @@
               <div class="pagination-container">
                 <div class="d-flex justify-content-between align-items-center">
                   <div class="text-xs font-weight-bold mb-0" style="margin-left: 15px;">
-                    Showing page {{page_obj.number}} of {{ page_obj.paginator.num_pages }}
+                    Showing page {{expense_page_obj.number}} of {{ expense_page_obj.paginator.num_pages }}
                   </div>
                 
                   <ul class="pagination" style="padding: 0; margin: 0; display: flex; margin-right: 150px;">
-                    {% if page_obj.has_previous %}
+                    {% if expense_page_obj.has_previous %}
                     <li class="page-item" style="margin: 0;">
                       <a class="page-link" href="?page=1" style="display: flex; justify-content: center; align-items: center; min-width: 80px; height: 30px; text-align: center;">&laquo; 1</a>
                     </li>
                     <li class="page-item" style="margin: 0;">
-                        <a class="page-link" href="?page={{ page_obj.previous_page_number }}" style="display: flex; justify-content: center; align-items: center; min-width: 80px; height: 30px; text-align: center;">Previous</a>
+                        <a class="page-link" href="?page={{ expense_page_obj.previous_page_number }}" style="display: flex; justify-content: center; align-items: center; min-width: 80px; height: 30px; text-align: center;">Previous</a>
                     </li>
                     {% endif %}
                 
-                    {% if page_obj.has_next %}
+                    {% if expense_page_obj.has_next %}
                     <li class="page-item" style="margin: 0;">
-                        <a class="page-link" href="?page={{ page_obj.next_page_number }}" style="display: flex; justify-content: center; align-items: center; min-width: 80px; height: 30px; text-align: center;">Next</a>
+                        <a class="page-link" href="?page={{ expense_page_obj.next_page_number }}" style="display: flex; justify-content: center; align-items: center; min-width: 80px; height: 30px; text-align: center;">Next</a>
                     </li>
                     <li class="page-item" style="margin: 0;">
-                        <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}" style="display: flex; justify-content: center; align-items: center; min-width: 80px; height: 30px; text-align: center;">{{ page_obj.paginator.num_pages }} &raquo;</a>
+                        <a class="page-link" href="?page={{ expense_page_obj.paginator.num_pages }}" style="display: flex; justify-content: center; align-items: center; min-width: 80px; height: 30px; text-align: center;">{{ expense_page_obj.paginator.num_pages }} &raquo;</a>
                     </li>
                     {% endif %}
                 </ul>
@@ -404,6 +401,157 @@
           </div>
         </div>
       </div>
+
+      <div class="row"></div>
+        <div class="col-12">
+          <div class="card my-4">
+            <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+              <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
+                <h6 class="text-white text-capitalize ps-3">Income</h6>
+              </div>
+            </div>
+
+            <div class="card-body px-0 pb-2">
+
+              <div class="row">
+                <div class="col-md-10">
+                  <div class="block-container font-weight-bolder mb-0">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                          <li class="breadcrumb-item"><a href="">Income</a></li>
+                          <li class="breadcrumb-item active" aria-current="page">My Income</li>
+                        </ol>
+                    </nav>
+                  </div>
+                </div>
+                
+                <div class="col-md-2">
+                  <a href="{% url 'add_income' %}" class="btn btn-primary">Add Income</a>
+                </div>  
+              </div>
+              
+            
+              {% if incomes.count %}
+
+              <div class="row">
+                <div class="col-md-8"></div>
+                <div class="col-md-4">
+                  <div class="ms-md-auto pe-md-3 d-flex align-items-center">
+                    <div class="input-group input-group-outline" style="width: 400px;">
+                      <label class="form-label">Search</label>
+                      <input type="text" class="form-control" id="incomeSearchField">
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="income-app-table">
+                <table class="table table-stripped table-hover align-items-center mb-0">
+                  <thead>
+                    <tr>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Amount ({{currency}})</th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Source</th>
+                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Description</th>
+                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Date</th>
+                      <th class="text-secondary opacity-7"></th>
+                    </tr>
+                  </thead>
+  
+                  <tbody>
+                    
+                    {% for income in income_page_obj %}
+                    
+                    <tr>
+                      <td>
+                        <div class="d-flex px-2 py-1">
+                          <div class="d-flex flex-column justify-content-center">
+                            <h6 class="mb-0 text-sm">{{income.amount}}</h6>
+                            <!-- <p class="text-xs text-secondary mb-0">john@creative-tim.com</p> -->
+                          </div>
+                        </div>
+                      </td>
+                      <td>
+                        <span class="badge badge-sm bg-gradient-success">{{income.source}}</span>
+                      </td>
+                      <td class="align-middle text-center text-sm">
+                        <p class="text-xs font-weight-bold mb-0">{{income.description}}</p>
+                       
+                      </td>
+                      <td class="align-middle text-center">
+                        <span class="text-secondary text-xs font-weight-bold">{{income.date}}</span>
+                      </td>
+                      <td class="align-middle">
+                        <a href="{% url 'edit_income' income.id %}" class="btn btn-secondary btn-sm mt-3 font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
+                          Edit
+                        </a>
+                      </td>
+                    </tr>
+                    
+                    {% endfor %}
+  
+                  </tbody>
+                </table>
+              </div>
+            
+            <p class="income-no-results" style="display: none; margin-left: 20px; font-weight: bold;">No results</p>
+              <div class="income-table-output">
+                <table class="table table-stripped table-hover align-items-center mb-0">
+                  <thead>
+                    <tr>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Amount ({{currency}})</th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Category</th>
+                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Description</th>
+                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Date</th>
+                      <th class="text-secondary opacity-7"></th>
+                    </tr>
+                  </thead>
+  
+                  <tbody class="income-table-body">
+                    
+                    
+                  </tbody>
+                </table>
+              </div>
+
+              <div class="income-pagination-container">
+                <div class="d-flex justify-content-between align-items-center">
+                  <div class="text-xs font-weight-bold mb-0" style="margin-left: 15px;">
+                    Showing page {{income_page_obj.number}} of {{ income_page_obj.paginator.num_pages }}
+                  </div>
+                
+                  <ul class="pagination" style="padding: 0; margin: 0; display: flex; margin-right: 150px;">
+                    {% if income_page_obj.has_previous %}
+                    <li class="page-item" style="margin: 0;">
+                      <a class="page-link" href="?page=1" style="display: flex; justify-content: center; align-items: center; min-width: 80px; height: 30px; text-align: center;">&laquo; 1</a>
+                    </li>
+                    <li class="page-item" style="margin: 0;">
+                        <a class="page-link" href="?page={{ income_page_obj.previous_page_number }}" style="display: flex; justify-content: center; align-items: center; min-width: 80px; height: 30px; text-align: center;">Previous</a>
+                    </li>
+                    {% endif %}
+                
+                    {% if income_page_obj.has_next %}
+                    <li class="page-item" style="margin: 0;">
+                        <a class="page-link" href="?page={{ income_page_obj.next_page_number }}" style="display: flex; justify-content: center; align-items: center; min-width: 80px; height: 30px; text-align: center;">Next</a>
+                    </li>
+                    <li class="page-item" style="margin: 0;">
+                        <a class="page-link" href="?page={{ income_page_obj.paginator.num_pages }}" style="display: flex; justify-content: center; align-items: center; min-width: 80px; height: 30px; text-align: center;">{{ income_page_obj.paginator.num_pages }} &raquo;</a>
+                    </li>
+                    {% endif %}
+                </ul>
+                
+                </div>
+              </div>
+
+              {% endif %}
+          
+
+              
+            </div>
+
+          </div>
+        </div>
+      </div>
+
       <footer class="footer py-4  ">
         <div class="container-fluid">
           <div class="row align-items-center justify-content-lg-between">
@@ -519,6 +667,7 @@
   <script src="{% static 'myapp/assets/js/plugins/smooth-scrollbar.min.js' %}"></script>
 
   <script src="{% static 'myapp/assets/js/searchExpenses.js' %}"></script>
+  <script src="{% static 'myapp/assets/js/searchIncome.js' %}"></script>
   <script>
     var win = navigator.platform.indexOf('Win') > -1;
     if (win && document.querySelector('#sidenav-scrollbar')) {
