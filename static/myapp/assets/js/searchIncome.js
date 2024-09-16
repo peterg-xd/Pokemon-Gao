@@ -7,17 +7,17 @@ const incomePaginationContainer = document.querySelector(".income-pagination-con
 const incomeNoResults = document.querySelector(".income-no-results");
 const incomeTbody = document.querySelector(".income-table-body");
 
-let controller; // To hold the AbortController instance
-let debounceTimer; // For debouncing
+let incomeController; // To hold the AbortController instance
+let incomeDebounceTimer; // For debouncing
 
 incomeSearchField.addEventListener('keyup', (e) => {
-    clearTimeout(debounceTimer); // Clear the previous timer
+    clearTimeout(incomeDebounceTimer); // Clear the previous timer
 
-    debounceTimer = setTimeout(() => {
+    incomeDebounceTimer = setTimeout(() => {
         const searchValue = e.target.value;
 
-        if (controller) {
-            controller.abort(); // Cancel the previous request
+        if (incomeController) {
+            incomeController.abort(); // Cancel the previous request
         }
 
         if (searchValue.trim().length > 0) {
@@ -26,11 +26,11 @@ incomeSearchField.addEventListener('keyup', (e) => {
             incomePaginationContainer.style.display = "none";
             incomeTbody.innerHTML = "";
 
-            controller = new AbortController(); // Create a new AbortController
+            incomeController = new AbortController(); // Create a new AbortController
             fetch("/search_income", {
                 body: JSON.stringify({ incomeSearchText: searchValue }),
                 method: "POST",
-                signal: controller.signal, // Pass the signal to fetch
+                signal: incomeController.signal, // Pass the signal to fetch
             })
                 .then((res) => res.json())
                 .then((data) => {
@@ -76,6 +76,7 @@ incomeSearchField.addEventListener('keyup', (e) => {
             incomeTableOutput.style.display = "none";
             incomeAppTable.style.display = "block";
             incomePaginationContainer.style.display = "block";
+            incomeNoResults.style.display = "none";
         }
     }, 300); // Debounce delay of 300ms
 });

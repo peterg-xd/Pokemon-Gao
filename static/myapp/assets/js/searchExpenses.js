@@ -1,5 +1,4 @@
 const searchField = document.querySelector("#searchField");
-
 const appTable = document.querySelector(".app-table");
 const tableOutput = document.querySelector(".table-output");
 tableOutput.style.display = 'none';
@@ -76,6 +75,7 @@ searchField.addEventListener('keyup', (e) => {
             tableOutput.style.display = "none";
             appTable.style.display = "block";
             paginationContainer.style.display = "block";
+            noResults.style.display = "none";
         }
     }, 300); // Debounce delay of 300ms
 });

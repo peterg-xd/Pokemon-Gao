@@ -1,5 +1,5 @@
 """
-URL configuration for demo project.
+URL configuration for pokemongao project.
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/5.0/topics/http/urls/
@@ -23,4 +23,5 @@ urlpatterns = [
     path("", include("myapp.urls")),
     path('authentication/', include('authentication.urls')),
     path('preferences/', include('userpreferences.urls')),
+    path('database/', include("database.urls")),
 ] + debug_toolbar_urls()
